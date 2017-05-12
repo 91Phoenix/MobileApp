@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSendMessageButtonClick(View view) {
         adapter.add("Me: " + inputForm.getText().toString());
         sendMessageToServer(inputForm.getText().toString(), false);
-//        inputForm.setText("");
+        inputForm.setText("");
     }
 
     private void sendMessageToServer(String messageToSend, boolean isMock) {

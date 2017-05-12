@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
  * Created by m.ditucci on 10/05/2017.
  */
 public class HttpClient {
-    private static final String BASE_URL = "http://192.168.0.106:8080/clientRequest";
+    private static final String BASE_URL = "http://172.30.1.3:8080/clientRequest";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

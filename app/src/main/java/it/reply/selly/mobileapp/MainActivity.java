@@ -9,6 +9,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import cz.msebera.android.httpclient.Header;
 import it.reply.selly.mobileapp.utility.HttpClient;
+import it.reply.selly.mobileapp.utility.SellyMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText inputForm;
 
-    private ArrayAdapter<String> adapter;
+    private MessagesListAdapter adapter;
+    private List<SellyMessage> messageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +37,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initAdapter() {
-        final ListView listView = (ListView) findViewById(R.id.messagesContainer);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+        final ListView listView = (ListView) findViewById(R.id.list_view_messages);
+        adapter = new MessagesListAdapter(this, messageList);
         listView.setAdapter(adapter);
     }
 
     private void getViewReferences() {
-        inputForm = (EditText) findViewById(R.id.messageEdit);
+        inputForm = (EditText) findViewById(R.id.inputMsg);
     }
 
     public void onSendMessageButtonClick(View view) {
-        adapter.add("Me: " + inputForm.getText().toString());
+        messageList.add(new SellyMessage(inputForm.getText().toString(), false));
+        adapter.notifyDataSetChanged();
         sendMessageToServer(inputForm.getText().toString(), false);
         inputForm.setText("");
     }
 
     private void sendMessageToServer(String messageToSend, boolean isMock) {
         if (isMock){
-            adapter.add("Server says bla bla bla");
+            messageList.add(new SellyMessage("Server says bla bla bla", false));
             return;
         }
 
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Message received");
                 try {
                     if (response.getString(RESPONSE_TEXT) != null){
-                        adapter.add("Chatbot: " + response.getString(RESPONSE_TEXT));
+                        messageList.add(new SellyMessage(response.getString(RESPONSE_TEXT), true));
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "An error occurred while transforming JSON received from BE");

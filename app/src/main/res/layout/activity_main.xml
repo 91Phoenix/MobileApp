@@ -1,60 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
-    <RelativeLayout android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="20dp"
-                    tools:context="it.reply.selly.MainActivity">
+              android:background="@color/gray_background"
+              android:orientation="vertical" >
 
-        <EditText android:id="@+id/messageEdit"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentBottom="true"
-                  android:layout_toLeftOf="@+id/chatSendButton"
-                  android:inputType="text"
-                  android:hint="type message"/>
+    <ListView
+            android:id="@+id/list_view_messages"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:divider="@null"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true">
+    </ListView>
 
-        <Button android:id="@+id/chatSendButton"
-                android:onClick="onSendMessageButtonClick"
-                android:layout_width="wrap_content"
+    <LinearLayout
+            android:id="@+id/llMsgCompose"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_background"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+        <EditText android:id="@+id/inputMsg"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:background="@color/bg_msg_input"
+                android:textColor="@color/text_msg_input"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"/>
+
+        <Button
+                android:id="@+id/btnSend"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@color/background_floating_material_dark"
-                android:text="Send MSG"
-                android:textColor="@color/background_material_light"/>
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:textColor="@color/user_baloon"
+                android:text="@string/btn_send"
+                android:onClick="onSendMessageButtonClick"/>
+    </LinearLayout>
 
-        <ListView android:id="@+id/messagesContainer"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_alignParentLeft="false"
-                  android:layout_alignParentTop="false"
-                  android:layout_marginBottom="20dp"
-                  android:layout_above="@+id/messageEdit"
-                  android:layout_below="@+id/meLbl"
-                  android:layout_marginTop="10dp"
-                  android:listSelector="@android:color/transparent"
-                  android:transcriptMode="alwaysScroll"
-                  android:divider="@null"/>
-
-        <TextView android:id="@+id/meLbl"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="left|center_vertical"
-                  android:singleLine="false"
-                  android:textSize="20sp"/>
-
-        <TextView android:id="@+id/serverLabel"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:textSize="20dp"/>
-
-    </RelativeLayout>
 </LinearLayout>

@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 createFakeNotitication();
             }
             if (lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME).equalsIgnoreCase(TRAVEL_INSURANCE)){
+                showGeolacalizationActivation();
+                showTravelInsuranceMessage();
                 showImageAndUrl();
             }
         } catch (JSONException e) {
@@ -146,6 +148,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDiscountMessage(){
         messageList.add(new SellyMessage(getString(R.string.amazon_discount), true));
+    }
+
+    private void showTravelInsuranceMessage(){
+        messageList.add(new SellyMessage(getString(R.string.travel_insurance), true));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showGeolacalizationActivation(){
+        messageList.add(new SellyMessage(getString(R.string.travel_insurance_activation), true));
+        adapter.notifyDataSetChanged();
     }
 
     private void defaultAnswerForYesInput(){

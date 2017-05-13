@@ -4,4 +4,6 @@
     <string name="welcome_message">Bentornato Jacopo! In cosa posso esserti utile oggi?</string>
     <string name="ok">Ok</string>
     <string name="amazon_discount">Ti ho inviato tutti i dettagli del buono anche all\'indirizzo email jacopo@gmail.com</string>
+    <string name="travel_insurance">Questa travel insurance potrebbe interessarti</string>
+    <string name="travel_insurance_activation">Ok, attivata</string>
 </resources>

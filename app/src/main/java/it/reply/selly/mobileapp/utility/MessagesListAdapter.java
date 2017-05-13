@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,7 @@ public class MessagesListAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item_message_left, null);
             TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
             txtMsg.setText(messagesItems.get(position).getMessage());
+            txtMsg.setMovementMethod(LinkMovementMethod.getInstance());
         }
         return convertView;
     }

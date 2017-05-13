@@ -1,7 +1,10 @@
 package it.reply.selly.mobileapp;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String RESPONSE_TEXT = "responseText";
     private static final String RESPONSE_IMAGE_LINK = "responseImageLink";
     private static final String RESPONSE_IMAGE_NAME = "responseImageName";
+    private static final String AMAZON = "amazon";
+    private static final String TRAVEL_INSURANCE = "travel_insurance";
 
     private EditText inputForm;
 
@@ -57,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSendMessageButtonClick(View view) {
-        if ("si".equalsIgnoreCase(inputForm.getText().toString()) || "sì".equals(inputForm.getText().toString())){
+        if ("si".equalsIgnoreCase(inputForm.getText().toString()) || "sì".equals(inputForm.getText().toString())
+                || "ok".equalsIgnoreCase(inputForm.getText().toString()) || "va bene".equalsIgnoreCase(inputForm.getText().toString())){
+            messageList.add(new SellyMessage(inputForm.getText().toString(), false));
+            adapter.notifyDataSetChanged();
             showUpSellingProposal();
         } else if ("no".equalsIgnoreCase(inputForm.getText().toString())){
             messageList.add(new SellyMessage(inputForm.getText().toString(), false));
@@ -117,19 +125,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            if (lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME).equalsIgnoreCase("amazon") ||
-                    lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME).equalsIgnoreCase("travel_insurance")){
-                messageList.add(new SellyMessage(lastResponseFromChatbot.getString(RESPONSE_TEXT), true, true,
-                        lastResponseFromChatbot.getString(RESPONSE_IMAGE_LINK), lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME)));
-                adapter.notifyDataSetChanged();
+            if (lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME).equalsIgnoreCase(AMAZON)){
+                showImageAndUrl();
+                showDiscountMessage();
+                createFakeNotitication();
+            }
+            if (lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME).equalsIgnoreCase(TRAVEL_INSURANCE)){
+                showImageAndUrl();
             }
         } catch (JSONException e) {
             defaultAnswerForYesInput();
         }
     }
 
+    private void showImageAndUrl() throws JSONException {
+        messageList.add(new SellyMessage(lastResponseFromChatbot.getString(RESPONSE_TEXT), true, true,
+                lastResponseFromChatbot.getString(RESPONSE_IMAGE_LINK), lastResponseFromChatbot.getString(RESPONSE_IMAGE_NAME)));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void showDiscountMessage(){
+        messageList.add(new SellyMessage(getString(R.string.amazon_discount), true));
+    }
+
     private void defaultAnswerForYesInput(){
         messageList.add(new SellyMessage(getString(R.string.ok), true));
         adapter.notifyDataSetChanged();
+    }
+
+    private void createFakeNotitication(){
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.gmail)
+                        .setContentTitle("My notification")
+                        .setContentText("Buono sconto Amazon per te");
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mBuilder.build());
     }
 }

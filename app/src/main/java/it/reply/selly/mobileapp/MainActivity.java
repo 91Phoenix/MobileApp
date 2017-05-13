@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         HttpClient.post("/", new RequestParams(MESSAGE_POST_PARAM_KEY, messageToSend), new JsonHttpResponseHandler() {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, "A problem occurred");
-                Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
 
             @Override

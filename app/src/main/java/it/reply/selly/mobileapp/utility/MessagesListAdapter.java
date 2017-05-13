@@ -100,7 +100,7 @@ public class MessagesListAdapter extends BaseAdapter {
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageMsg);
 
             int id = context.getResources().getIdentifier(sellyMessage.getImageUrl(), "drawable", context.getPackageName());
-            imageView.setImageResource(id);
+            imageView.setBackgroundResource(id);
 
             TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
             txtMsg.setText(messagesItems.get(position).getUrl());

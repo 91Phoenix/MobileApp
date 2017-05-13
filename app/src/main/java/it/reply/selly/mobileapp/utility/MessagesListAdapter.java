@@ -1,16 +1,21 @@
-package it.reply.selly.mobileapp;
+package it.reply.selly.mobileapp.utility;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import it.reply.selly.mobileapp.utility.SellyMessage;
+import it.reply.selly.mobileapp.R;
 
 /**
  * Created by m.ditucci on 12/05/2017.
@@ -59,24 +64,50 @@ public class MessagesListAdapter extends BaseAdapter {
         // Identifying the message owner
         if (! messagesItems.get(position).isFromServer()) {
             // message belongs to you, so load the right aligned layout
-            convertView = mInflater.inflate(R.layout.list_item_message_right, null);
+            convertView = setViewForUser(message, mInflater);
         } else {
-            // message belongs to other person, load the left aligned layout
-            convertView = mInflater.inflate(R.layout.list_item_message_left,
-                    null);
+            // message belongs to server, load the left aligned layout
+            convertView = setViewForServer(mInflater, position);
         }
 
         TextView lblFrom = (TextView) convertView.findViewById(R.id.lblMsgFrom);
-        TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
-
-        txtMsg.setText(message);
-
         if (! messagesItems.get(position).isFromServer()){
             lblFrom.setText(ME);
         } else{
             lblFrom.setText(SELLY);
         }
 
+        return convertView;
+    }
+
+    private View setViewForUser(String message, LayoutInflater mInflater) {
+        View convertView;
+        convertView = mInflater.inflate(R.layout.list_item_message_right, null);
+        TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
+        txtMsg.setText(message);
+        return convertView;
+    }
+
+    private View setViewForServer(LayoutInflater mInflater, int position) {
+        SellyMessage sellyMessage = this.messagesItems.get(position);
+        View convertView;
+
+        if (sellyMessage.isUpsellingImage()){
+            convertView = mInflater.inflate(R.layout.list_item_image_message_left, null);
+            TextView textView = (TextView) convertView.findViewById(R.id.txtMsg);
+            textView.setText(sellyMessage.getUrl());
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.imageMsg);
+
+            int id = context.getResources().getIdentifier(sellyMessage.getImageUrl(), "drawable", context.getPackageName());
+            imageView.setImageResource(id);
+
+            TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
+            txtMsg.setText(messagesItems.get(position).getUrl());
+        } else{
+            convertView = mInflater.inflate(R.layout.list_item_message_left, null);
+            TextView txtMsg = (TextView) convertView.findViewById(R.id.txtMsg);
+            txtMsg.setText(messagesItems.get(position).getMessage());
+        }
         return convertView;
     }
 }

@@ -6,10 +6,21 @@ package it.reply.selly.mobileapp.utility;
 public class SellyMessage {
     private String message;
     private boolean isFromServer;
+    private boolean isUpsellingImage;
+    private String url;
+    private String imageUrl;
 
     public SellyMessage(String message, boolean isFromServer) {
         this.message = message;
         this.isFromServer = isFromServer;
+    }
+
+    public SellyMessage(String message, boolean isFromServer, boolean isUpsellingImage, String url, String imageUrl) {
+        this.message = message;
+        this.isFromServer = isFromServer;
+        this.isUpsellingImage = isUpsellingImage;
+        this.url = url;
+        this.imageUrl = imageUrl;
     }
 
     public String getMessage() {
@@ -18,5 +29,17 @@ public class SellyMessage {
 
     public boolean isFromServer() {
         return isFromServer;
+    }
+
+    public boolean isUpsellingImage() {
+        return isUpsellingImage;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
